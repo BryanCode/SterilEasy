@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce - Carrinho</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+   body {
+  font-family: 'Georama', sans-serif;    
+  padding: 20px;
+  max-width: 1200px;
+  padding-bottom: 10em !important;
+  margin: auto;
+  background-color: #404B50;
+}
+
+h1 {
+  text-align: center;
+  color: #007bff;
+  margin-top: 50px;
+}
+
+#user-info {
+  text-align: right;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+#user-info span {
+  font-size: 1rem;
+  color: #ddd;
+}
+
+#user-info button {
+  background-color: transparent;
+  color: #FFFFFF;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+#user-info button:hover { 
+  color: red;
+  border: 1px solid red !important;
+}
+
+.material-list, .cart-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.material-list h2, .cart-list h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.material-list ul, .cart-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Layout de cards */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card {
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  border: 1px solid #007bff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translate(-5px, -5px);
+}
+
+.card img {
+  margin: 0 auto;
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.card span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #404B50;
+}
+
+.quantity-control {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.quantity-control button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.quantity-control button:hover {
+  background-color: #0056b3;
+}
+
+.quantity-control input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.material-list button, .cart-list button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.material-list button:hover, .cart-list button:hover {
+  background-color: #0056b3;
+}
+
+.cart-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.checkout {
+  text-align: right;
+  margin-top: 0;
+}
+
+.checkout button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.checkout button:hover {
+  background-color: #218838;
+}
+
+.cart-list {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 0 !important;
+  border-top: 2px solid #ddd;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.cart-list h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.cart-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.cart-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Adicione este código no corpo da sua página -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+</div>
+
+<style>
+  #loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    display: none; /* Inicialmente oculto */
+  }
+  .spinner {
+    border: 5px solid #f3f3f3; /* Cor de fundo do spinner */
+    border-top: 5px solid #007bff; /* Cor principal */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+    /* Menu lateral */
+    #sidebar {
+      box-shadow: 5px 5px 155px rgba(40, 40, 40, 0.557);
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      background-color: #404B50;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 20px;
+      z-index: 1000000;
+    }
+
+    #sidebar a {
+      padding: 15px 25px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    #sidebar a i {
+      margin-right: 10px;
+    }
+
+    #sidebar a:hover {
+      background-color: #0056b3;
+    }
+
+    #menu-toggle {
+      font-size: 1.5rem;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #menu-toggle:hover {
+      color: #0056b3;
+    }
+
+    .content {
+      margin-left: 0;
+      transition: margin-left 0.3s;
+      padding: 20px;
+    }
+
+    /* Estilo quando o menu está aberto */
+    .menu-open #sidebar {
+      left: 0;
+    }
+
+    .menu-open .content {
+      margin-left: 250px;
+    }
+</style>
+
+
+   <!-- Botão de Menu -->
+   <div id="menu-toggle">
+    <i class="fa fa-bars"></i>
+  </div>
+
+  <!-- Menu Lateral -->
+  <div id="sidebar">
+    <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
+    <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
+    <a href="store.html"><i class="fa fa-store"></i> Loja</a>
+    <a href="workspace.html"><i class="fa fa-briefcase"></i> Workspace</a>
+  </div>
+  <h1>Faça seu pedido</h1>
+
+  <div id="user-info">
+    <!-- Nome do cliente ou botão de login será exibido aqui -->
+  </div>
+
+  <div class="material-list">
+    <h2>Produtos Disponíveis</h2>
+    <ul id="material-list" class="card-container"></ul>
+  </div>
+
+  <div class="cart-list">
+    <ul id="cart-list"></ul>
+    <div class="checkout" style="display: flex; justify-content: flex-end; gap: 35px; align-items: center;">
+      <p class="cart-total" id="cart-total">Total: R$ 0.00</p>
+
+      <button onclick="enviarPedido()">Finalizar Pedido</button>
+    </div>
+  </div>
+
+
+  <script>
+
+    
+
+
+    document.getElementById('menu-toggle').addEventListener('mouseenter', function () {
+      document.body.classList.toggle('menu-open');
+    });
+  
+    document.getElementById('sidebar').addEventListener('mouseleave', function () {
+      document.body.classList.toggle('menu-open');
+    }); 
+  </script>
+  <script>
+    const databaseURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/materiais.json";
+    const pedidosURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos.json";
+
+    // Função para exibir o overlay de loading
+    function mostrarLoading() {
+      document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    // Função para ocultar o overlay de loading
+    function esconderLoading() {
+      document.getElementById('loading-overlay').style.display = 'none';
+    }
+
+
+    // Função para exibir o nome do cliente ou botão de login
+    function exibirUsuario() {
+      const cliente = JSON.parse(localStorage.getItem('cliente'));
+
+      const userInfoDiv = document.getElementById('user-info');
+      if (cliente && cliente.nome) {
+        userInfoDiv.innerHTML = `
+        <div style="display: flex; align-items: flex-end; flex-direction: column;">  
+          <span>Bem-vindo, ${cliente.nome}!</span>
+          <button class=" btn-danger" onclick="Logout()">Sair</button>
+        </div>`;
+      } else {
+        userInfoDiv.innerHTML = `<button class="background-color: #007bff !important;  " onclick="window.location.href='registration.html'">Logar</button>`;
+      }
+    }
+
+    function Logout() {
+      localStorage.removeItem('cliente');
+      location.reload();
+    }
+
+    async function listarMateriais() {
+  const response = await fetch(databaseURL);
+  const data = await response.json();
+
+  const materiaisLista = document.getElementById('material-list');
+  materiaisLista.innerHTML = '';
+
+  if (data) {
+    Object.keys(data).forEach((id) => {
+      const material = data[id];
+
+      const li = document.createElement('li');
+      li.classList.add('card');
+      li.innerHTML = `
+      <div style="display: flex; align-items: center;">
+        <div>
+          <img src="assets/dentista.png" alt="${material.nome} id="myImage">
+        </div>
+        <div>  
+          <span>${material.nome} - R$ ${material.valor}</span>
+          <div class="quantity-control">
+            <button onclick="decrementarQuantidade('${id}')">-</button>
+            <input type="number" id="quantidade-${id}" value="1" min="1" max="100" readonly>
+            <button onclick="incrementarQuantidade('${id}')">+</button>
+            <button onclick="adicionarAoCarrinho('${id}', '${encodeURIComponent(JSON.stringify(material))}')">Adicionar</button>
+          </div>
+        </div>
+      </div>
+      `;
+      materiaisLista.appendChild(li);
+    });
+  }
+  esconderLoading();
+
+  
+}
+
+    function incrementarQuantidade(id) {
+      const input = document.getElementById(`quantidade-${id}`);
+      input.value = parseInt(input.value) + 1;
+    }
+
+    function decrementarQuantidade(id) {
+      const input = document.getElementById(`quantidade-${id}`);
+      if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+      }
+    }
+
+    function adicionarAoCarrinho(id, materialString) {
+      const material = JSON.parse(decodeURIComponent(materialString));
+      const quantidade = parseInt(document.getElementById(`quantidade-${id}`).value);
+      
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const itemExistente = carrinho.find((item) => item.id === id);
+
+      if (itemExistente) {
+        itemExistente.quantidade += quantidade;
+      } else {
+        carrinho.push({ id, ...material, quantidade });
+      }
+
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      listarCarrinho();
+    }
+
+    function listarCarrinho() {
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const cartLista = document.getElementById('cart-list');
+      cartLista.innerHTML = '';
+
+      if (carrinho.length > 0) {
+        carrinho.forEach((item) => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            
+              <span>${item.nome} (x${item.quantidade})</span>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <span>R$ ${(item.valor * item.quantidade).toFixed(2)}</span>
+                <button onclick="removerDoCarrinho('${item.id}')">Remover</button>
+              </div>    
+              `;
+          cartLista.appendChild(li);
+        });
+      } else {
+        cartLista.innerHTML = '<li>Carrinho vazio</li>';
+      }
+
+      calcularTotal();
+    }
+
+    function calcularTotal() {
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const total = carrinho.reduce((acc, item) => acc + item.valor * item.quantidade, 0);
+      document.getElementById('cart-total').textContent = `Total: R$ ${total.toFixed(2)}`;
+    }
+
+    function removerDoCarrinho(id) {
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      carrinho = carrinho.filter((item) => item.id !== id);
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+      listarCarrinho();
+    }
+
+    async function enviarPedido() {
+      mostrarLoading()
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const cliente = JSON.parse(localStorage.getItem('cliente'));
+
+      if (!cliente) {
+        window.location.href = 'registration.html';
+        return;
+      }
+
+      if (carrinho.length === 0) {
+        alert('O carrinho está vazio!');
+        return;
+      }
+
+      const total = carrinho.reduce((acc, item) => acc + item.valor * item.quantidade, 0);
+      const pedido = {
+        cliente: cliente,
+        status: 'pendente',
+        itens: carrinho,
+        total,
+        data: new Date().toISOString()
+      };
+
+      await fetch(pedidosURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pedido)
+      });
+
+      alert('Pedido enviado com sucesso!');
+      esconderLoading()
+      localStorage.removeItem('carrinho');
+      listarCarrinho();
+    }
+    mostrarLoading()
+    exibirUsuario();
+    listarMateriais();
+    listarCarrinho();
+  </script>
+
+</body>
+</html>
