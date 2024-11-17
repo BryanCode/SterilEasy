@@ -251,6 +251,10 @@
       document.getElementById('loading-overlay').style.display = 'none';
     }
 
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.body.classList.toggle('menu-open');
+    });
+
     function salvarCliente() {
       const nome = document.getElementById('nome').value.trim();
       const email = document.getElementById('email').value.trim();
