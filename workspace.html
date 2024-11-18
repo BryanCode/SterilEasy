@@ -65,6 +65,13 @@
     .order-details td {
       border-top: 2px solid #007bff;
     }
+    .order-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+      flex-direction: column;
+      
+    }
     .order-actions button {
       background-color: #ff5c5c;
       border: none;
@@ -189,7 +196,7 @@
 
     #menu-toggle {
       font-size: 1.5rem;
-      position: absolute;
+      position: fixed;
       top: 15px;
       left: 15px;
       color: #ccc;
@@ -244,6 +251,7 @@
     }
     .filters {
       display: flex;
+      gap: 10px;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
@@ -251,6 +259,25 @@
       padding: 10px 15px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (max-width: 768px) {
+
+      td, th {
+        font-size: small;
+      }
+      
+      .filters {
+        justify-content: start !important;
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .filters label {
+        width: 5em !important;
+      }
+    
+      
     }
 
     .filters select,
@@ -310,8 +337,10 @@
   <h1>Pedidos</h1>
    <!-- Filtros -->
    <div class="filters">
-    <div>
-      <label for="status-filter">Status:</label>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="width: 5em;">
+        <label for="status-filter">Status:</label>
+      </div>
       <select id="status-filter">
         <option value="">Todos</option>
         <option value="pendente">Pendente</option>
@@ -320,13 +349,17 @@
       </select>
     </div>
 
-    <div>
-      <label for="search-filter">Pesquisar:</label>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="width: 5em;">
+       <label for="search-filter">Pesquisar:</label>
+      </div>
       <input type="text" id="search-filter" placeholder="Digite o nome do cliente">
     </div>
 
-    <div>
-      <label for="date-filter">Data:</label>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div style="width: 5em;">
+       <label for="date-filter">Data:</label>
+      </div>
       <input type="date" id="date-filter">
     </div>
 
