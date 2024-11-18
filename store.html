@@ -164,6 +164,15 @@ h1 {
   margin-top: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .cart-total {
+    font-size: .9em;
+  }
+  #cart-list {
+display: none;  
+}
+}
+
 .checkout {
   text-align: right;
   margin-top: 0;
@@ -257,7 +266,6 @@ h1 {
 
     /* Menu lateral */
     #sidebar {
-      box-shadow: 5px 5px 155px rgba(40, 40, 40, 0.557);
       height: 100%;
       width: 250px;
       position: fixed;
@@ -347,7 +355,7 @@ h1 {
     <div class="checkout" style="display: flex; justify-content: flex-end; gap: 35px; align-items: center;">
       <p class="cart-total" id="cart-total">Total: R$ 0.00</p>
 
-      <button onclick="enviarPedido()">Finalizar Pedido</button>
+      <button onclick="enviarPedido()">Finalizar</button>
     </div>
   </div>
 
@@ -422,7 +430,7 @@ h1 {
           <img src="assets/dentista.png" alt="${material.nome} id="myImage">
         </div>
         <div>  
-          <span>${material.nome} - R$ ${material.valor}</span>
+          <span>${material.nome} <br>- R$ ${material.valor}</span>
           <div class="quantity-control">
             <button onclick="decrementarQuantidade('${id}')">-</button>
             <input type="number" id="quantidade-${id}" value="1" min="1" max="100" readonly>
@@ -542,6 +550,8 @@ h1 {
       localStorage.removeItem('carrinho');
       listarCarrinho();
     }
+    
+    
     mostrarLoading()
     exibirUsuario();
     listarMateriais();
