@@ -1,0 +1,16 @@
+{
+  "name": "sterileasy",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "puppeteer": "^23.8.0",
+    "venom-bot": "^5.1.0"
+  }
+}
