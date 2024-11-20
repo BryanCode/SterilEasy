@@ -310,7 +310,10 @@
     .filters button:hover {
       background-color: #0056b3;
     }
+
+    
   </style>
+
 </head>
 <body>
   <!-- Adicione este código no corpo da sua página -->
@@ -330,7 +333,7 @@
     <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
     <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
     <a href="store.html"><i class="fa fa-store"></i> Loja</a>
-    <a href="workspace.html"><i class="fa fa-briefcase"></i> Workspace</a>
+    <a href="pedidos.html"><i class="fa fa-briefcase"></i> Workspace</a>
   </div>
 
   <h1>Pedidos</h1>
@@ -402,10 +405,6 @@ document.getElementById('menu-toggle').addEventListener('click', function () {
     document.getElementById('sidebar').addEventListener('mouseleave', function () {
       document.body.classList.toggle('menu-open');
     }); 
-  </script>
-<script>
-
-
 
 let idPedidoAtual = null; // Variável para armazenar o ID do pedido a ser editado
 
@@ -445,7 +444,6 @@ function editarPedido(id) {
 
 
 
-  const pedidosURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos.json";
 
  
 
@@ -467,6 +465,9 @@ function editarPedido(id) {
   listarPedidos(); // Recarrega a lista após a atualização
 }
 
+ const pedidosURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos.json";
+
+
   // Função para listar pedidos
   async function listarPedidos() {
     const response = await fetch(pedidosURL);
@@ -478,7 +479,7 @@ function editarPedido(id) {
     pedidosLista.innerHTML = '';
 
     if (data) {
-  Object.keys(data).reverse().forEach((id) => {
+   Object.keys(data).reverse().forEach((id) => {
     const pedido = data[id];
     const row = document.createElement('tr');
     
@@ -578,7 +579,7 @@ detailsRow.innerHTML = `
   mostrarLoading();
   // Inicializa os pedidos ao carregar a página
   listarPedidos();
-</script>
+  </script>
 
 </body>
 </html>

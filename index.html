@@ -323,7 +323,7 @@
     <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
     <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
     <a href="store.html"><i class="fa fa-store"></i> Loja</a>
-    <a href="workspace.html"><i class="fa fa-briefcase"></i> Workspace</a>
+    <a href="pedidos.html"><i class="fa fa-briefcase"></i> pedidos</a>
   </div>
 
 
@@ -407,7 +407,7 @@
           body: JSON.stringify({ nome, valor })
         });
         fecharModalAdicionar();
-        listarMateriais();
+        location.reload();
       } else {
         alert('Preencha todos os campos!');
       }
@@ -440,7 +440,7 @@
           li.innerHTML = `
             <div style="display: flex; align-items: center;">
               <img src="assets/dentista.png" alt="${material.nome}">
-              <span style="font-size: 16px;">${material.nome} <br> - <strong>R$ ${material.valor}</strong></span>
+              <span style="font-size: 16px;">${material.nome} <br><strong>R$ ${material.valor}</strong></span>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
               <button style="background-color: green !important;" onclick="abrirModal('${id}', '${encodeURIComponent(JSON.stringify(material))}')">Editar</button>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban de Pedidos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Fonte e cores da página base */
+        body {
+            font-family: 'Georama', sans-serif;
+            background-color: #404B50;
+            color: #404B50;
+            padding: 20px;
+            margin: 0;
+            padding-bottom: 10em !important;
+        }
+
+        h2 {
+            color: #007bff;
+            font-weight: 600;
+            margin-top: 0 !important;
+        }
+
+        h3 {
+            margin-top: 0 !important;
+        }
+
+        .kanban {
+            display: flex;
+            gap: 20px;
+            max-width: 90%;
+            margin: auto;
+        }
+
+        .column {
+            flex: 1;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: 80vh !important;
+        }
+
+        .card {
+            background-color: #f9f9f9;
+            border: 1px solid #afafaf;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            border: 2px solid #007bff;
+            transform: translate(-5px, -5px);
+            box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        .card button {
+            width: 100%;
+            margin-top: 1em;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: white;
+            border: 2px solid #007bff;
+            color: #555;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #007bff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            gap: 5px;
+        }
+
+        .expand-btn {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .expand-btn:hover {
+            text-decoration: underline;
+        }
+
+        .card-items {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin-top: 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .card-items h4 {
+            margin-bottom: 5px;
+            margin-top: 0;
+        }
+
+        .card-items ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card-items li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .upload-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .upload-btn i {
+            margin-right: 5px;
+        }
+
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+
+
+        /* Menu lateral */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            background-color: #404B50;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 20px;
+            z-index: 1000;
+        }
+
+        #sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        #sidebar a i {
+            margin-right: 10px;
+        }
+
+        #sidebar a:hover {
+            background-color: #0056b3;
+        }
+
+        #menu-toggle {
+            font-size: 1.5rem;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+
+
+        #menu-toggle:hover {
+            color: #0056b3;
+        }
+
+        .content {
+            margin-left: 0;
+            transition: margin-left 0.3s;
+            padding: 20px;
+        }
+
+        /* Estilo quando o menu está aberto */
+        .menu-open #sidebar {
+            left: 0;
+        }
+
+        .menu-open .content {
+            margin-left: 250px;
+        }
+
+        strong a {
+            text-decoration: none;
+        }
+
+        .card-footer span {
+            font-weight: 800 !important;
+            color: green;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .items-table th,
+        .items-table td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .items-table th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .items-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .items-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .items-table td {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+
+        .dragging {
+            opacity: 0.5;
+            border: 2px dashed #007bff;
+        }
+
+        .column {
+            border: 2px dashed transparent;
+            min-height: 200px;
+            /* Altura mínima para facilitar o drop */
+        }
+
+        .column.drag-over {
+            border-color: #007bff;
+            /* Destaque ao arrastar sobre a coluna */
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-header i {
+            cursor: pointer;
+        }
+
+        .card-header i:hover {
+            color: red;
+        }
+    </style>
+
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Botão de Menu -->
+    <div id="menu-toggle">
+        <i class="fa fa-bars"></i>
+    </div>
+
+
+    <!-- Menu Lateral -->
+    <div id="sidebar">
+        <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
+        <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
+        <a href="store.html"><i class="fa fa-store"></i> Loja</a>
+        <a href="pedidos.html"><i class="fa fa-briefcase"></i> Workspace</a>
+    </div>
+
+
+    <h2 style="text-align: center;">Kanban de Pedidos</h2>
+
+    <div class="kanban">
+        <div class="column" id="pendente">
+            <div
+                style="background-color: rgb(253, 137, 137); width: 100%; height: 8px; margin-bottom: 10px; margin-top: -16.5px; border-radius: 8px;">
+            </div>
+            <h2>Pendente</h2>
+        </div>
+        <div class="column" id="producao">
+            <div
+                style="background-color: rgb(234, 255, 150); width: 100%; height: 8px; margin-bottom: 10px; margin-top: -16.5px; border-radius: 8px;">
+            </div>
+
+            <h2>Produçao</h2>
+        </div>
+        <div class="column" id="pronto">
+            <div
+                style="background-color: rgb(158, 245, 145); width: 100%; height: 8px; margin-bottom: 10px; margin-top: -16.5px; border-radius: 8px;">
+            </div>
+
+            <h2>Pronto</h2>
+        </div>
+    </div>
+
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        mostrarLoading()
+        // Função para exibir o overlay de loading
+        function mostrarLoading() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+
+        // Função para ocultar o overlay de loading
+        function esconderLoading() {
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        const baseUrl = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos";
+
+        const columns = {
+            "pendente": document.getElementById("pendente"),
+            "producao": document.getElementById("producao"),
+            "pronto": document.getElementById("pronto")
+        };
+
+        function formatarTelefoneParaWhatsApp(telefone) {
+            // Remove caracteres não numéricos (parênteses, espaços, hífens)
+            const somenteNumeros = telefone.replace(/\D/g, "");
+
+            // Se o número for nacional e começar com 0 ou 55, trata corretamente
+            if (somenteNumeros.startsWith("55")) {
+                return somenteNumeros; // Número já está no formato internacional
+            }
+
+            if (somenteNumeros.length === 11) {
+                return `55${somenteNumeros}`; // Adiciona o código do Brasil (55) se for número com DDD
+            } else if (somenteNumeros.length === 9) {
+                return `5511${somenteNumeros}`; // Supondo DDD padrão caso falte (11)
+            } else {
+                return `55${somenteNumeros}`; // Retorna padrão internacional sem validação adicional
+            }
+
+        }
+
+
+
+        function createCard(pedido, id, index) {
+            const column = columns[pedido.status];
+            if (!column) {
+                console.warn(`Status desconhecido: ${pedido.status} para pedido ID: ${id}`);
+                return;
+            }
+            const telefoneFormatado = formatarTelefoneParaWhatsApp(pedido.cliente.telefone);
+
+            console.log(telefoneFormatado);
+            const card = document.createElement("div");
+            card.className = "card";
+            card.setAttribute("draggable", "true"); // Torna o card arrastável
+            card.setAttribute("data-id", id); // Identificador do pedido
+            console.log(pedido);
+            card.innerHTML = `
+        <div class="card-header">
+        <h3>Pedido #${index}</h3>
+        <i onclick="removerPedido('${id}')" class="fa fa-trash"></i>
+        </div>
+
+        <div class="card-body">
+        <p><strong><i style=" margin-right: 5px;" class="fa-regular fa-user"></i>${pedido.cliente.nome}</strong> </p>
+        <p><strong><i style=" margin-right: 5px;" class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/${telefoneFormatado}" target="_blank">${pedido.cliente.telefone}</a></strong> </p>
+        <p><strong><i style=" margin-right: 5px;" class="fa-solid fa-location-dot"></i>${pedido.cliente.endereco.logradouro}, ${pedido.cliente.endereco.numero}</strong> </p>
+        </div>
+
+        <div class="card-footer">
+        <span>Total: R$ ${pedido.total.toFixed(2)}</span>
+        <a href="#" class="expand-btn">Mostrar Itens</a>
+        </div>
+         <div class="card-items" style="display: none; margin-top: 5px; margin-left: 0; padding-left: 0;    padding-right: 0;">
+        <h4>Itens do Pedido:</h4>
+        <table class="items-table">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qtd</th>
+                <th>Vl</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            ${pedido.itens
+                    .map(
+                        (item) => `
+                    <tr>
+                    <td>${item.nome}</td>
+                    <td>${item.quantidade}</td>
+                    <td>${parseFloat(item.valor).toFixed(2)}</td>
+                    <td>${(item.quantidade * item.valor).toFixed(2)}</td>
+                    </tr>
+                `
+                    )
+                    .join("")}
+            </tbody>
+        </table>
+        </div>
+         <input type="file" class="file-upload" style="display: none;">
+           <p id="file-name" style="font-size: 0.9rem; color: #555; margin-top: 10px;"></p>
+
+                <button class="upload-btn" ><i class="fas fa-upload"></i> Upload</button>
+
+            <button onclick="moverCard('${id}', '${pedido.status}')">Avançar pedido <i class="fa-solid fa-arrow-right"></i></button>
+
+
+     
+    `;
+
+
+            // Função para expandir o card e mostrar os itens do pedido
+            card.querySelector(".expand-btn").addEventListener("click", function (event) {
+                event.preventDefault();
+                const itemsSection = card.querySelector(".card-items");
+                const isVisible = itemsSection.style.display === "block";
+                itemsSection.style.display = isVisible ? "none" : "block";
+                this.innerText = isVisible ? "Mostrar Itens" : "Ocultar Itens";
+            });
+            // Eventos de Drag & Drop
+            card.addEventListener("dragstart", dragStart);
+            card.addEventListener("dragend", dragEnd);
+            card.querySelector('.upload-btn').addEventListener('click', function () {
+                card.querySelector('.file-upload').click(); // Simula o clique no input file
+                card.querySelector('.file-upload').addEventListener('change', function (event) {
+                    const file = event.target.files[0]; // Captura o primeiro arquivo selecionado
+                    if (file) {
+                        card.getElementById('file-name').textContent = `Arquivo selecionado: ${file.name}`;
+                    } else {
+                        card.getElementById('file-name').textContent = 'Nenhum arquivo selecionado.';
+                    }
+                });
+            });
+
+            column.appendChild(card);
+
+        }
+
+        // Função para remover pedido
+        async function removerPedido(id) {
+            const confirmar = confirm("Tem certeza de que deseja remover este pedido? Esta ação não pode ser desfeita.");
+
+            if (confirmar) {
+                mostrarLoading();
+
+                try {
+                    await fetch(`https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos/${id}.json`, {
+                        method: "DELETE"
+                    });
+
+                    location.reload();
+                } catch (error) {
+                    console.error("Erro ao remover pedido:", error);
+                    alert("Ocorreu um erro ao tentar remover o pedido. Por favor, tente novamente.");
+                } finally {
+                    esconderLoading();
+                }
+            } else {
+                alert("Ação cancelada.");
+            }
+        }
+
+        async function listarPedidos() {
+            try {
+                const response = await fetch(`${baseUrl}.json`);
+                const data = await response.json();
+
+                // Obter as chaves do objeto data e iterar com índice
+                Object.keys(data).forEach((id, index) => {
+                    createCard(data[id], id, index + 1); // Passa o índice ajustado para começar em 1
+                });
+            } catch (error) {
+                console.error("Erro ao listar pedidos:", error);
+            }
+            esconderLoading()
+        }
+
+        async function moverCard(id, statusAtual) {
+            const proximoStatus = {
+                "pendente": "producao",
+                "producao": "pronto",
+                "pronto": null
+            };
+
+            const novoStatus = proximoStatus[statusAtual];
+            if (novoStatus) {
+                try {
+                    const response = await fetch(`${baseUrl}/${id}.json`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ status: novoStatus })
+                    });
+
+                    if (response.ok) {
+                        document.location.reload();
+                    } else {
+                        console.error("Erro ao atualizar status:", await response.json());
+                    }
+                } catch (error) {
+                    console.error("Erro na requisição de atualização:", error);
+                }
+            } else {
+                alert("Pedido já está no estágio final!");
+            }
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData("text/plain", event.target.dataset.id); // Armazena o ID do card
+            event.target.classList.add("dragging"); // Adiciona uma classe para estilização visual
+        }
+
+        function dragEnd(event) {
+            event.target.classList.remove("dragging"); // Remove a classe ao soltar o card
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault(); // Permite o drop
+            event.dataTransfer.dropEffect = "move"; // Indica que o item será movido
+        }
+
+        async function handleDrop(event) {
+            event.preventDefault();
+
+            const id = event.dataTransfer.getData("text/plain"); // Obtém o ID do card
+            const column = event.currentTarget; // Coluna onde o card foi solto
+            const novoStatus = column.dataset.status; // Obtém o novo status a partir da coluna
+
+            // Move o card visualmente
+            const card = document.querySelector(`[data-id='${id}']`);
+            column.appendChild(card);
+
+            // Atualiza o status do pedido no Firebase
+            try {
+                await fetch(`${baseUrl}/${id}.json`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ status: novoStatus })
+                });
+                location.reload();
+            } catch (error) {
+                console.error("Erro ao atualizar status no Firebase:", error);
+            }
+        }
+
+        document.querySelectorAll(".column").forEach((column) => {
+            column.addEventListener("dragover", handleDragOver); // Permite o drop
+            column.addEventListener("drop", handleDrop); // Lida com o evento de soltar
+            column.setAttribute("data-status", column.id); // Define um identificador de status para cada coluna
+        });
+
+
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            document.body.classList.toggle('menu-open');
+        });
+        document.getElementById('menu-toggle').addEventListener('mouseenter', function () {
+            document.body.classList.toggle('menu-open');
+        });
+
+        document.getElementById('sidebar').addEventListener('mouseleave', function () {
+            document.body.classList.toggle('menu-open');
+        });
+
+
+        listarPedidos();
+    </script>
+</body>
+
+</html>
