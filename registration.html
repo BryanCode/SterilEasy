@@ -7,6 +7,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
   <style>
+      #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      display: none;
+    }
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #007bff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     body {
       font-family: 'Georama', Arial, sans-serif;
   
@@ -163,40 +188,13 @@
 </head>
 <body>
 
- 
 
   <!-- Overlay de Loading -->
   <div id="loading-overlay">
     <div class="spinner"></div>
   </div>
   
-  <style>
-    #loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      display: none;
-    }
-    .spinner {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #007bff;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+
 
   <!-- Botão de Menu -->
   <div id="menu-toggle">
@@ -208,7 +206,7 @@
     <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
     <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
     <a href="store.html"><i class="fa fa-store"></i> Loja</a>
-    <a href="workspace.html"><i class="fa fa-briefcase"></i> Workspace</a>
+    <a href="pedidos.html"><i class="fa fa-briefcase"></i> pedidos</a>
   </div>
 
      <!-- Logotipo -->

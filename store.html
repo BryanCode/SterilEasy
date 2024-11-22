@@ -37,7 +37,7 @@ h1 {
 #user-info button {
   background-color: transparent;
   color: #FFFFFF;
-  border: none;
+  border: 1px solid transparent;
   padding: 4px 8px;
   border-radius: 5px;
   cursor: pointer;
@@ -49,6 +49,8 @@ h1 {
   color: red;
   border: 1px solid red !important;
 }
+
+
 
 .material-list, .cart-list {
   background-color: white;
@@ -69,78 +71,138 @@ h1 {
   margin: 0;
 }
 
-/* Layout de cards */
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  .card {
+    list-style: none;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 10px 0;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-.card {
-  transition: all 0.3s ease;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+    border: solid 2px #007bff;
+  }
 
-.card:hover {
-  border: 1px solid #007bff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transform: translate(-5px, -5px);
-}
+  .card-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
 
-.card img {
+  .card-image img {
+    width: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
 
-  margin: 0 auto;
-  width: 50px;
-  height: auto;
-  margin-bottom: 10px;
-}
+  .card-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
-.card span {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #404B50;
-}
+  .card-details h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+  }
 
-.quantity-control {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
+  .price {
+    font-size: 1.3rem;
+    color: #007bff;
+    font-weight: 700;
+    margin: 5px 0;
+  }
 
-.quantity-control button {
-  background-color: #007bff;
-  border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+  }
 
-.quantity-control button:hover {
-  background-color: #0056b3;
-}
+  .quantity-control button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
 
-.quantity-control input {
-  width: 20px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: .8rem;
-  padding: 5px;
-}
+  .quantity-control button:hover {
+    background-color: #0056b3;
+  }
+
+  .quantity-control input {
+    width: 50px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1.2rem;
+  }
+
+  .add-to-cart {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+
+  .add-to-cart:hover {
+    background-color: #218838;
+    transform: scale(1.03);
+  }
+
+  .add-to-cart i {
+    margin-right: 5px;
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      max-width: 100%;
+    }
+
+    .card-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card-details {
+      align-items: center;
+      text-align: center;
+    }
+
+    .quantity-control {
+      justify-content: center;
+    }
+  }
+
+  .quantity-button {
+    background-color: transparent !important;
+    color: #007bff !important;
+    padding: 0;
+    font-size: 2em !important;
+
+  }
 
 .material-list button, .cart-list button {
   background-color: #007bff;
@@ -164,6 +226,15 @@ h1 {
   margin-top: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .cart-total {
+    font-size: .9em;
+  }
+  #cart-list {
+display: none;  
+}
+}
+
 .checkout {
   text-align: right;
   margin-top: 0;
@@ -184,14 +255,10 @@ h1 {
 }
 
 .cart-list {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 75%;
+
   background-color: white;
   padding: 20px;
-  margin-bottom: 0 !important;
+  margin: 0 auto;
   border-top: 2px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -204,7 +271,7 @@ h1 {
 }
 
 .cart-list ul {
-  list-style: none;
+  list-style: none; 
   padding: 0;
   margin: 10px 0;
   max-height: 150px;
@@ -214,10 +281,50 @@ h1 {
 .cart-list li {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
   padding: 0;
   border-bottom: 1px solid #ddd;
 }
+.cart-container {
+    position: fixed;
+    bottom: 0;
+    right: 11% !important;
+    width: 100%;
+    max-width: 400px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    background-color: #f9f9f9;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 
+  .cart-container.active {
+    transform: translateY(0);
+  }
+
+  .cart-toggle-button {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .cart-toggle-button i {
+    margin-right: 5px;
+  }
+
+  .cart-toggle-button:hover {
+    background-color: #0056b3;
+  }
   </style>
 </head>
 <body>
@@ -257,7 +364,6 @@ h1 {
 
     /* Menu lateral */
     #sidebar {
-      box-shadow: 5px 5px 155px rgba(40, 40, 40, 0.557);
       height: 100%;
       width: 250px;
       position: fixed;
@@ -329,7 +435,7 @@ h1 {
     <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
     <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
     <a href="store.html"><i class="fa fa-store"></i> Loja</a>
-    <a href="workspace.html"><i class="fa fa-briefcase"></i> Workspace</a>
+    <a href="pedidos.html"><i class="fa fa-briefcase"></i> Workspace</a>
   </div>
   <h1>Faça seu pedido</h1>
 
@@ -339,18 +445,20 @@ h1 {
 
   <div class="material-list">
     <h2>Produtos Disponíveis</h2>
-    <ul id="material-list" class="card-container"></ul>
+    <ul id="material-list" style="display: flex; flex-wrap: wrap;" class="card-container"></ul>
   </div>
+  <button id="toggle-cart" class="cart-toggle-button"><i class="fas fa-shopping-cart"></i> Carrinho</button>
 
-  <div class="cart-list">
-    <ul id="cart-list"></ul>
-    <div class="checkout" style="display: flex; justify-content: flex-end; gap: 35px; align-items: center;">
-      <p class="cart-total" id="cart-total">Total: R$ 0.00</p>
-
-      <button onclick="enviarPedido()">Finalizar Pedido</button>
+  <div class="cart-container">
+  
+    <div class="cart-list">
+      <ul id="cart-list"></ul>
+      <div class="checkout" style="display: flex; justify-content: flex-end; gap: 35px; align-items: center;">
+        <p class="cart-total" id="cart-total">Total: R$ 0.00</p>
+        <button onclick="enviarPedido()">Finalizar</button>
+      </div>
     </div>
   </div>
-
 
   <script>
      document.getElementById('menu-toggle').addEventListener('click', function () {
@@ -368,6 +476,15 @@ h1 {
     }); 
   </script>
   <script>
+
+const toggleButton = document.getElementById('toggle-cart');
+  const cartContainer = document.querySelector('.cart-container');
+
+  toggleButton.addEventListener('click', () => {
+    cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
+  });
+
+
     const databaseURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/materiais.json";
     const pedidosURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/pedidos.json";
 
@@ -411,30 +528,35 @@ h1 {
   materiaisLista.innerHTML = '';
 
   if (data) {
-    Object.keys(data).forEach((id) => {
-      const material = data[id];
+  Object.keys(data).forEach((id) => {
+    const material = data[id];
 
-      const li = document.createElement('li');
-      li.classList.add('card');
-      li.innerHTML = `
-      <div style="display: flex; align-items: center;">
-        <div style="margin-right: 10px;">
-          <img src="assets/dentista.png" alt="${material.nome} id="myImage">
+    const li = document.createElement('li');
+    li.classList.add('card');
+    li.innerHTML = `
+      <div class="card-container">
+        <div class="card-image">
+          <img src="assets/dentista.png" alt="${material.nome}" id="myImage">
         </div>
-        <div>  
-          <span>${material.nome} - R$ ${material.valor}</span>
+        <div class="card-details">
+          <h3>${material.nome}</h3>
+          <p class="price">R$ ${material.valor}</p>
           <div class="quantity-control">
-            <button onclick="decrementarQuantidade('${id}')">-</button>
-            <input type="number" id="quantidade-${id}" value="1" min="1" max="100" readonly>
-            <button onclick="incrementarQuantidade('${id}')">+</button>
-            <button onclick="adicionarAoCarrinho('${id}', '${encodeURIComponent(JSON.stringify(material))}')">Adicionar</button>
+            <p>Quantidade:</p>
+            <button style="font-size: 2.3em !important; transform: translateY(-3px);" class="quantity-button" onclick="decrementarQuantidade('${id}')">-</button>
+            <input style="display:flex; align-items: center; justify-content: center; transform: translateX(10px);" type="number" id="quantidade-${id}" value="1" min="1" max="100">
+            <button class="quantity-button" onclick="incrementarQuantidade('${id}')">+</button>
           </div>
+          <button class="add-to-cart" onclick="adicionarAoCarrinho('${id}', '${encodeURIComponent(JSON.stringify(material))}')">
+            <i class="fas fa-shopping-cart"></i> Adicionar ao Pedido
+          </button>
         </div>
       </div>
-      `;
-      materiaisLista.appendChild(li);
-    });
-  }
+    `;
+    materiaisLista.appendChild(li);
+  });
+}
+
   esconderLoading();
 
   
@@ -443,6 +565,12 @@ h1 {
     function incrementarQuantidade(id) {
       const input = document.getElementById(`quantidade-${id}`);
       input.value = parseInt(input.value) + 1;
+
+      if (cartContainer.classList.contains('active')) {
+        listarCarrinho(); // Chama a função para atualizar o carrinho
+        return;
+      }
+      cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
     }
 
     function decrementarQuantidade(id) {
@@ -450,6 +578,11 @@ h1 {
       if (parseInt(input.value) > 1) {
         input.value = parseInt(input.value) - 1;
       }
+      if (cartContainer.classList.contains('active')) {
+        listarCarrinho(); // Chama a função para atualizar o carrinho
+        return;
+      }
+      cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
     }
 
     function adicionarAoCarrinho(id, materialString) {
@@ -464,7 +597,13 @@ h1 {
       } else {
         carrinho.push({ id, ...material, quantidade });
       }
+      if (cartContainer.classList.contains('active')) {
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
+        listarCarrinho(); // Chama a função para atualizar o carrinho
+        return;
+      }
+      cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
       localStorage.setItem('carrinho', JSON.stringify(carrinho));
       listarCarrinho();
     }
@@ -477,16 +616,18 @@ h1 {
       if (carrinho.length > 0) {
         carrinho.forEach((item) => {
           const li = document.createElement('li');
+          
           li.innerHTML = `
             
-              <span>${item.nome} (x${item.quantidade})</span>
+              <span style="display: flex; align-items: center;justify-content: space-between;">${item.nome} (x${item.quantidade})</span>
               <div style="display: flex; gap: 10px; align-items: center;">
                 <span>R$ ${(item.valor * item.quantidade).toFixed(2)}</span>
-                <button onclick="removerDoCarrinho('${item.id}')">Remover</button>
+                <button style="background-color:red;" onclick="removerDoCarrinho('${item.id}')"><i class="fas fa-trash"></i></button>
               </div>    
               `;
           cartLista.appendChild(li);
         });
+
       } else {
         cartLista.innerHTML = '<li>Carrinho vazio</li>';
       }
@@ -542,6 +683,8 @@ h1 {
       localStorage.removeItem('carrinho');
       listarCarrinho();
     }
+    
+    
     mostrarLoading()
     exibirUsuario();
     listarMateriais();
