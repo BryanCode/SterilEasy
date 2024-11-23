@@ -194,7 +194,7 @@
 
     .add-to-cart:hover {
       background-color: #218838;
-    
+
     }
 
     .add-to-cart i {
@@ -253,15 +253,6 @@
       margin-top: 10px;
     }
 
-    @media screen and (max-width: 768px) {
-      .cart-total {
-        font-size: .9em;
-      }
-
-      #cart-list {
-        display: none;
-      }
-    }
 
     .checkout {
       text-align: right;
@@ -314,10 +305,12 @@
       border-bottom: 1px solid #ddd;
     }
 
+
+
     .cart-container {
       position: fixed;
       bottom: 0;
-      right: 11% !important;
+      right: 20% !important;
       width: 100%;
       max-width: 400px;
       transform: translateY(100%);
@@ -464,18 +457,41 @@
     }
 
     @media screen and (max-width: 768px) {
+      .cart-total {
+        font-size: .9em;
+      }
+
+      .cart-container.active {
+      transform: translate(20%,-60px);
+    }
+
+
+      .cart-container {
+        bottom: 0;
+        width: 100%;
+        max-width: 400px;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-in-out;
+        background-color: #f9f9f9;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
       .card-material {
         flex-direction: column;
       }
+
       h5 {
         margin-top: 0;
       }
+
       .card-details h3 {
         text-align: center;
       }
+
       .price {
         font-size: xx-large;
-        margin: 0 ;
+        margin: 0;
       }
 
       .card-image {
@@ -485,19 +501,7 @@
   </style>
 
 
-  <!-- Botão de Menu -->
-  <div id="menu-toggle">
-    <i class="fa fa-bars"></i>
-  </div>
 
-  <!-- Menu Lateral -->
-  <div id="sidebar">
-    <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
-    <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
-    <a href="login.html"><i class="fa fa-sign-in"></i> Login</a>
-    <a href="store.html"><i class="fa fa-store"></i> Loja</a>
-    <a href="pedidos.html"><i class="fa fa-briefcase"></i> Workspace</a>
-  </div>
   <h1>Faça seu pedido</h1>
 
   <div id="user-info">
@@ -521,21 +525,7 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function () {
-      document.body.classList.toggle('menu-open');
-    });
 
-
-
-    document.getElementById('menu-toggle').addEventListener('mouseenter', function () {
-      document.body.classList.toggle('menu-open');
-    });
-
-    document.getElementById('sidebar').addEventListener('mouseleave', function () {
-      document.body.classList.toggle('menu-open');
-    }); 
-  </script>
   <script>
 
     const toggleButton = document.getElementById('toggle-cart');

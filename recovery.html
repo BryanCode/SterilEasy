@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperação de Conta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+      body {
+      font-family: 'Georama', Arial, sans-serif;
+      padding-top: 1em;
+      max-width: 600px;
+      margin: auto;
+      background-color: #052637;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #052637;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1em;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo img {
+      width: 80%;
+      height: auto;
+    }
+    .recovery-form, .reset-password-form {
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    .recovery-form input, .reset-password-form input {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .recovery-form input:focus, .reset-password-form input:focus {
+      outline: none;
+      border-color: #6DB734;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .recovery-form button, .reset-password-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #6DB734;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+    .recovery-form button:hover, .reset-password-form button:hover {
+      background-color: #0056b3;
+      transform: scale(1.02);
+    }
+    .message {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #0056b3;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logotipo -->
+  <div class="logo">
+    <img src="assets/Captura_de_tela_2024-11-23_082850-ai-brush-removebg-ziueb6lb.png" alt="Logotipo">
+  </div>
+
+  <!-- Formulário para recuperar conta -->
+  <div class="recovery-form" id="email-form">
+    <h1>Recuperar Conta</h1>
+    <input type="email" id="email" placeholder="Digite seu e-mail" required>
+    <button onclick="verificarEmail()">Enviar</button>
+    <div class="message" id="email-message"></div>
+  </div>
+
+  <!-- Formulário para redefinir a senha -->
+  <div class="reset-password-form" id="reset-form" style="display: none; ">
+    <div class="form-group" style="display: flex; flex-direction: column;">
+        <h1>Redefinir Senha</h1>
+        <input type="password" id="nova-senha" placeholder="Nova senha" required>
+        <input type="password" id="confirmar-senha" placeholder="Confirmar nova senha" required>
+        <button onclick="redefinirSenha()">Redefinir</button>
+        <div class="message" id="reset-message"></div>
+    </div>
+  </div>
+
+  <script>
+    let clienteId = null; // Variável para armazenar o ID do cliente encontrado no Firebase
+
+    async function verificarEmail() {
+      const email = document.getElementById('email').value.trim();
+      const emailMessage = document.getElementById('email-message');
+
+      if (!email) {
+        emailMessage.textContent = 'Por favor, insira um e-mail.';
+        return;
+      }
+
+      try {
+        const url = 'https://sterileasy-ca5ed-default-rtdb.firebaseio.com/clientes.json';
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error('Erro ao acessar o banco de dados.');
+        }
+
+        const data = await response.json();
+
+        if (!data) {
+          emailMessage.textContent = 'E-mail não encontrado.';
+          return;
+        }
+
+        // Procurar cliente pelo e-mail
+        const cliente = Object.entries(data).find(([id, cliente]) => cliente.email === email);
+
+        if (cliente) {
+          clienteId = cliente[0]; // Guardar o ID do cliente
+          emailMessage.textContent = '';
+          document.getElementById('email-form').style.display = 'none';
+          document.getElementById('reset-form').style.display = 'block';
+        } else {
+          emailMessage.textContent = 'E-mail não encontrado.';
+        }
+      } catch (error) {
+        console.error('Erro ao verificar e-mail:', error);
+        emailMessage.textContent = 'Ocorreu um erro. Tente novamente.';
+      }
+    }
+
+    async function redefinirSenha() {
+      const novaSenha = document.getElementById('nova-senha').value.trim();
+      const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
+      const resetMessage = document.getElementById('reset-message');
+
+      if (!novaSenha || !confirmarSenha) {
+        resetMessage.textContent = 'Por favor, preencha todos os campos.';
+        return;
+      }
+
+      if (novaSenha !== confirmarSenha) {
+        resetMessage.textContent = 'As senhas não coincidem.';
+        return;
+      }
+
+      try {
+        const url = `https://sterileasy-ca5ed-default-rtdb.firebaseio.com/clientes/${clienteId}.json`;
+        const response = await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ senha: novaSenha })
+        });
+
+        if (response.ok) {
+          alert('Senha redefinida com sucesso!');
+          window.location.href = 'login.html';
+        } else {
+          resetMessage.textContent = 'Erro ao redefinir a senha. Tente novamente.';
+        }
+      } catch (error) {
+        console.error('Erro ao redefinir senha:', error);
+        resetMessage.textContent = 'Ocorreu um erro. Tente novamente.';
+      }
+    }
+  </script>
+
+</body>
+</html>
