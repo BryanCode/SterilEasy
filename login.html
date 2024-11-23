@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+      #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      display: none;
+    }
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #6DB734;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    body {
+      font-family: 'Georama', Arial, sans-serif;
+      padding-top: 1em;
+      max-width: 600px;
+      margin: auto;
+      background-color: #052637;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #052637;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1em;
+      flex-direction: column;
+      align-items: center;
+    }
+    .logo img {
+      width: 80%;
+      height: auto;
+    }
+    .login-form {
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .login-form input {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .login-form input:focus {
+      outline: none;
+      border-color: #6DB734;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .login-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #6DB734;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+    .login-form button:hover {
+      background-color: #0056b3;
+      transform: scale(1.02);
+    }
+   
+    /* Menu lateral */
+    #sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      background-color: #404B50;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 20px;
+      z-index: 1000;
+    }
+
+    #sidebar a {
+      padding: 15px 25px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    #sidebar a i {
+      margin-right: 10px;
+    }
+
+    #sidebar a:hover {
+      background-color: #0056b3;
+    }
+
+    #menu-toggle {
+      font-size: 1.5rem;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      color: #ddd;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #menu-toggle:hover {
+      color: #0056b3;
+    }
+
+    .content {
+      margin-left: 0;
+      transition: margin-left 0.3s;
+      padding: 20px;
+    }
+
+        /* Estilo quando o menu está aberto */
+        .menu-open #sidebar {
+      left: 0;
+    }
+
+    .menu-open .content {
+      margin-left: 250px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Overlay de Loading -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  
+  <!-- Botão de Menu -->
+  <div id="menu-toggle">
+    <i class="fa fa-bars"></i>
+  </div>
+
+  <!-- Menu Lateral -->
+  <div id="sidebar">
+    <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
+    <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
+    <a href="login.html"><i class="fa fa-sign-in"></i> Login</a>
+    <a href="store.html"><i class="fa fa-store"></i> Loja</a>
+    <a href="pedidos.html"><i class="fa fa-briefcase"></i> pedidos</a>
+  </div>
+
+
+  <!-- Logotipo -->
+  <div class="logo">
+    <img src="assets/Captura_de_tela_2024-11-23_082850-ai-brush-removebg-ziueb6lb.png" alt="Logotipo">
+  </div>
+
+<!-- Formulário de Login -->
+<div class="login-form">
+    <h1>Entrar</h1>
+    
+    <!-- Campos de entrada -->
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="password" id="senha" placeholder="Senha" required>
+    
+    <!-- Botão para Login -->
+    <button onclick="realizarLogin()">Entrar</button>
+    
+    <!-- Ações adicionais -->
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="forgot-password.html" style="color: #0056b3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 10px;">Esqueci minha senha</a>
+      <a href="registration.html" style="color: #6DB734; text-decoration: none; font-size: 0.9rem; font-weight: 600;">Ainda não é cliente? Cadastre-se</a>
+    </div>
+  </div>
+  
+  <script>
+    function mostrarLoading() {
+      document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    function esconderLoading() {
+      document.getElementById('loading-overlay').style.display = 'none';
+    }
+
+    async function realizarLogin() {
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+
+    if (!email || !senha) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    mostrarLoading();
+
+    try {
+      // URL do Firebase para buscar os clientes cadastrados
+      const url = 'https://sterileasy-ca5ed-default-rtdb.firebaseio.com/clientes.json';
+
+      // Buscar os dados do Firebase
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Erro ao acessar o banco de dados.');
+      }
+
+      const data = await response.json();
+      if (!data) {
+        throw new Error('Nenhum cliente encontrado no banco de dados.');
+      }
+
+      // Procurar o cliente correspondente ao e-mail e senha
+      const clienteEncontrado = Object.values(data).find(cliente => {
+        return cliente.email === email && cliente.senha === senha;
+      });
+
+      esconderLoading();
+
+      if (clienteEncontrado) {
+        localStorage.setItem('cliente', JSON.stringify(clienteEncontrado));
+        window.location.href = 'store.html'; // Redirecionar para a página principal
+      } else {
+        alert('E-mail ou senha inválidos.');
+      }
+    } catch (error) {
+      esconderLoading();
+      console.error('Erro ao realizar login:', error);
+      alert('Ocorreu um erro ao tentar realizar o login. Tente novamente mais tarde.');
+    }
+  }
+
+    document.getElementById('menu-toggle').addEventListener('mouseenter', function () {
+    document.body.classList.toggle('menu-open');
+  });
+
+  document.getElementById('sidebar').addEventListener('mouseleave', function () {
+    document.body.classList.toggle('menu-open');
+  }); 
+
+  document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.body.classList.toggle('menu-open');
+    });
+  </script>
+</body>
+</html>

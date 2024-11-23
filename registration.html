@@ -220,6 +220,7 @@
   <div id="sidebar">
     <a href="index.html"><i class="fa fa-user-shield"></i> Admin</a>
     <a href="registration.html"><i class="fa fa-user-plus"></i> Registro</a>
+    <a href="login.html"><i class="fa fa-user"></i> Login</a>
     <a href="store.html"><i class="fa fa-store"></i> Loja</a>
     <a href="pedidos.html"><i class="fa fa-briefcase"></i> pedidos</a>
   </div>
@@ -238,11 +239,10 @@
     <input type="tel" id="telefone" placeholder="Telefone (99) 99999-9999" required>
     <input type="text" id="cep" placeholder="CEP (00000-000)" required>
     <input type="text" id="endereco" placeholder="Endereço" required >
-      <input type="text" id="numero" placeholder="Número" required >
-      <input type="text" id="complemento" placeholder="Complemento" >
-    <div style="display: flex; gap: 5px;">
-      
-    </div>
+    <input type="text" id="numero" placeholder="Número" required >
+    <input type="text" id="complemento" placeholder="Complemento" >
+    <input type="password" id="senha" placeholder="Senha" required>
+    <input type="password" id="confirmar-senha" placeholder="Confirmar Senha" required>   
     <button onclick="salvarCliente()">Registrar</button>
   </div>
 
@@ -267,35 +267,85 @@
       document.body.classList.toggle('menu-open');
     });
 
-    function salvarCliente() {
-      const nome = document.getElementById('nome').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const telefone = document.getElementById('telefone').value.trim();
-      const cep = document.getElementById('cep').value.trim();
-      const endereco = document.getElementById('endereco').value.trim();
-      const numero = document.getElementById('numero').value.trim();
-      const complemento = document.getElementById('complemento').value.trim();
+    
+  function validarSenhas() {
+    const senha = document.getElementById('senha').value.trim();
+    const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
 
-      if (!nome || !email || !telefone || !cep || !endereco || !numero) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
-      }
-
-      const cliente = {
-        nome,
-        email,
-        telefone,
-        endereco: {
-          cep,
-          logradouro: endereco,
-          numero,
-          complemento
-        }
-      };
-
-      localStorage.setItem('cliente', JSON.stringify(cliente));
-      window.location.href = 'store.html';
+    if (senha !== confirmarSenha) {
+      alert('As senhas não são idênticas. Por favor, verifique.');
+      return false;
     }
+
+    return true;
+  }
+
+  // Função para salvar os dados do cliente no Firebase Realtime Database
+  async function salvarCliente() {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const cep = document.getElementById('cep').value.trim();
+    const endereco = document.getElementById('endereco').value.trim();
+    const numero = document.getElementById('numero').value.trim();
+    const complemento = document.getElementById('complemento').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+
+    // Verificar se todos os campos obrigatórios estão preenchidos
+    if (!nome || !email || !telefone || !cep || !endereco || !numero || !senha) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
+    // Validar se as senhas são idênticas
+    if (!validarSenhas()) {
+      return;
+    }
+
+    // Criar objeto do cliente
+    const cliente = {
+      nome,
+      email,
+      telefone,
+      senha, // Idealmente, a senha deve ser criptografada antes de ser salva
+      endereco: {
+        cep,
+        logradouro: endereco,
+        numero,
+        complemento,
+      },
+    };
+
+    try {
+      // Mostrar o overlay de loading
+      mostrarLoading();
+
+      // Enviar dados para o Firebase Realtime Database
+      const response = await fetch('https://sterileasy-ca5ed-default-rtdb.firebaseio.com/clientes.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cliente),
+      });
+
+      // Verificar se a operação foi bem-sucedida
+      if (response.ok) {
+        localStorage.setItem('cliente', JSON.stringify(cliente));
+        alert('Cliente cadastrado com sucesso!');
+        window.location.href = 'store.html';
+      } else {
+        alert('Ocorreu um erro ao salvar os dados do cliente. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar cliente no Firebase:', error);
+      alert('Não foi possível salvar os dados do cliente.');
+    } finally {
+      // Esconder o overlay de loading
+      esconderLoading();
+    }
+  }
+
   </script>
 
 <script>
