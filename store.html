@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,366 +9,397 @@
   <link href="https://fonts.googleapis.com/css2?family=Georama:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-   body {
-  font-family: 'Georama', sans-serif;    
-  padding: 20px;
-  max-width: 1200px;
-  padding-bottom: 10em !important;
-  margin: auto;
-  background-color: #404B50;
-}
+    body {
+      font-family: 'Georama', sans-serif;
+      padding: 20px;
+      max-width: 1200px;
+      padding-bottom: 10em !important;
+      margin: auto;
+      background-color: #052637;
+    }
 
-h1 {
-  text-align: center;
-  color: #007bff;
-  margin-top: 50px;
-}
+    h1 {
+      text-align: center;
+      color: #6CB737;
+      margin-top: 50px;
+    }
 
-#user-info {
-  text-align: right;
-  margin-top: -10px;
-  margin-bottom: 20px;
-}
+    h3 {
+      font-size: x-large;
+      margin: 5px 0;
+    }
 
-#user-info span {
-  font-size: 1rem;
-  color: #ddd;
-}
+    h5 {
+      font-size: large;
+      margin: 5px 0;
+    }
 
-#user-info button {
-  background-color: transparent;
-  color: #FFFFFF;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
+    #user-info {
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
 
-#user-info button:hover { 
-  color: red;
-  border: 1px solid red !important;
-}
+    #user-info span {
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    #user-info button {
+      background-color: transparent;
+      color: #FFFFFF;
+      border: 1px solid transparent;
+      padding: 4px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    #user-info button:hover {
+      color: red;
+      border: 1px solid red !important;
+    }
 
 
 
-.material-list, .cart-list {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
+    .material-list,
+    .cart-list {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
 
-.material-list h2, .cart-list h2 {
-  margin-top: 0;
-  color: #333;
-}
+    .material-list h2,
+    .cart-list h2 {
+      margin-top: 0;
+      color: #333;
+    }
 
-.material-list ul, .cart-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+    .material-list ul,
+    .cart-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-  .card {
-    list-style: none;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin: 10px 0;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
-    border: solid 2px #007bff;
-  }
-
-  .card-container {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .card-image img {
-    width: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-
-  .card-details {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-.card:hover {
-  border: 1px solid #007bff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  transform: translate(-5px, -5px);
-}
-
-.card img {
-
-  margin: 0 auto;
-  width: 50px;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.card span {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #404B50;
-}
-
-  .quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 10px;
-  }
-
-  .quantity-control button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-
-  .quantity-control button:hover {
-    background-color: #0056b3;
-  }
-
-  .quantity-control input {
-    width: 50px;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    font-size: 1.2rem;
-  }
-
-  .add-to-cart {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-  }
-
-  .add-to-cart:hover {
-    background-color: #218838;
-    transform: scale(1.03);
-  }
-
-  .add-to-cart i {
-    margin-right: 5px;
-  }
-
-  @media (max-width: 768px) {
     .card {
-      max-width: 100%;
+      list-style: none;
+      background-color: #fff;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+      border: solid 2px #6CB737;
     }
 
     .card-container {
-      flex-direction: column;
       align-items: center;
+      gap: 15px;
+    }
+
+    .card-image img {
+      width: 100% !important;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .card-image {
+      width: 100px;
+      margin-right: 30px;
     }
 
     .card-details {
-      align-items: center;
-      text-align: center;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      border: 1px solid #6CB737;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+
+      margin: 0 auto;
+      width: 50px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .card span {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #404B50;
     }
 
     .quantity-control {
-      justify-content: center;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
     }
-  }
 
-  .quantity-button {
-    background-color: transparent !important;
-    color: #007bff !important;
-    padding: 0;
-    font-size: 2em !important;
+    .quantity-control button {
+      background-color: #6CB737;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
 
-  }
+    .quantity-control button:hover {
+      background-color: #0056b3;
+    }
 
-.material-list button, .cart-list button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
+    .quantity-control input {
+      width: 50px;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 1.2rem;
+    }
 
-.material-list button:hover, .cart-list button:hover {
-  background-color: #0056b3;
-}
+    .add-to-cart {
+      background-color: #28a745 !important;
+      color: white;
+      border: none;
+      padding: 15px !important;
+      border-radius: 5px;
+      font-size: 1.3rem;
+      width: 100%;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
 
-.cart-total {
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-align: right;
-  margin-top: 10px;
-}
+    .add-to-cart:hover {
+      background-color: #218838;
+    
+    }
 
-@media screen and (max-width: 768px) {
-  .cart-total {
-    font-size: .9em;
-  }
-  #cart-list {
-display: none;  
-}
-}
+    .add-to-cart i {
+      margin-right: 5px;
+    }
 
-.checkout {
-  text-align: right;
-  margin-top: 0;
-}
+    @media (max-width: 768px) {
+      .card {
+        max-width: 100%;
+      }
 
-.checkout button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-}
+      .card-container {
+        flex-direction: column;
+        align-items: center;
+      }
 
-.checkout button:hover {
-  background-color: #218838;
-}
+      .card-details {
+        align-items: center;
+        text-align: center;
+      }
 
-.cart-list {
+      .quantity-control {
+        justify-content: center;
+      }
+    }
 
-  background-color: white;
-  padding: 20px;
-  margin: 0 auto;
-  border-top: 2px solid #ddd;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
+    .quantity-button {
+      background-color: transparent !important;
+      color: #6CB737 !important;
+      padding: 0;
+      font-size: 2em !important;
 
-.cart-list h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
-}
+    }
 
-.cart-list ul {
-  list-style: none; 
-  padding: 0;
-  margin: 10px 0;
-  max-height: 150px;
-  overflow-y: auto;
-}
+    .material-list button,
+    .cart-list button {
+      background-color: #6CB737;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
 
-.cart-list li {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding: 0;
-  border-bottom: 1px solid #ddd;
-}
-.cart-container {
-    position: fixed;
-    bottom: 0;
-    right: 11% !important;
-    width: 100%;
-    max-width: 400px;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-in-out;
-    background-color: #f9f9f9;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
+    .material-list button:hover,
+    .cart-list button:hover {
+      background-color: #0056b3;
+    }
 
-  .cart-container.active {
-    transform: translateY(0);
-  }
+    .cart-total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      text-align: right;
+      margin-top: 10px;
+    }
 
-  .cart-toggle-button {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
+    @media screen and (max-width: 768px) {
+      .cart-total {
+        font-size: .9em;
+      }
 
-  .cart-toggle-button i {
-    margin-right: 5px;
-  }
+      #cart-list {
+        display: none;
+      }
+    }
 
-  .cart-toggle-button:hover {
-    background-color: #0056b3;
-  }
+    .checkout {
+      text-align: right;
+      margin-top: 0;
+    }
+
+    .checkout button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .checkout button:hover {
+      background-color: #218838;
+    }
+
+    .cart-list {
+
+      background-color: white;
+      padding: 20px;
+      margin: 0 auto;
+      border-top: 2px solid #ddd;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .cart-list h2 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .cart-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .cart-list li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cart-container {
+      position: fixed;
+      bottom: 0;
+      right: 11% !important;
+      width: 100%;
+      max-width: 400px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-in-out;
+      background-color: #f9f9f9;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .cart-container.active {
+      transform: translateY(0);
+    }
+
+    .cart-toggle-button {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      background-color: #6CB737;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .cart-toggle-button i {
+      margin-right: 5px;
+    }
+
+    .cart-toggle-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- Adicione este código no corpo da sua página -->
-<div id="loading-overlay">
-  <div class="spinner"></div>
-</div>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
 
-<style>
-  #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    display: none; /* Inicialmente oculto */
-  }
-  .spinner {
-    border: 5px solid #f3f3f3; /* Cor de fundo do spinner */
-    border-top: 5px solid #007bff; /* Cor principal */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+  <style>
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      display: none;
+      /* Inicialmente oculto */
+    }
+
+    .spinner {
+      border: 5px solid #f3f3f3;
+      /* Cor de fundo do spinner */
+      border-top: 5px solid #6CB737;
+      /* Cor principal */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
 
     /* Menu lateral */
@@ -430,11 +462,31 @@ display: none;
     .menu-open .content {
       margin-left: 250px;
     }
-</style>
+
+    @media screen and (max-width: 768px) {
+      .card-material {
+        flex-direction: column;
+      }
+      h5 {
+        margin-top: 0;
+      }
+      .card-details h3 {
+        text-align: center;
+      }
+      .price {
+        font-size: xx-large;
+        margin: 0 ;
+      }
+
+      .card-image {
+        margin: 0;
+      }
+    }
+  </style>
 
 
-   <!-- Botão de Menu -->
-   <div id="menu-toggle">
+  <!-- Botão de Menu -->
+  <div id="menu-toggle">
     <i class="fa fa-bars"></i>
   </div>
 
@@ -452,16 +504,16 @@ display: none;
   </div>
 
   <div class="material-list">
-    <h2>Produtos Disponíveis</h2>
-    <ul id="material-list" style="display: flex; flex-wrap: wrap;" class="card-container"></ul>
+    <h2>Itens Disponíveis</h2>
+    <ul id="material-list" style=" flex-wrap: wrap; width: 100%;" class="card-container"></ul>
   </div>
   <button id="toggle-cart" class="cart-toggle-button"><i class="fas fa-shopping-cart"></i> Carrinho</button>
 
   <div class="cart-container">
-  
+
     <div class="cart-list">
       <ul id="cart-list"></ul>
-      <div class="checkout" style="display: flex; justify-content: flex-end; gap: 35px; align-items: center;">
+      <div class="checkout" style="justify-content: flex-end; gap: 35px; align-items: center;">
         <p class="cart-total" id="cart-total">Total: R$ 0.00</p>
         <button onclick="enviarPedido()">Finalizar</button>
       </div>
@@ -469,28 +521,28 @@ display: none;
   </div>
 
   <script>
-     document.getElementById('menu-toggle').addEventListener('click', function () {
+    document.getElementById('menu-toggle').addEventListener('click', function () {
       document.body.classList.toggle('menu-open');
     });
-    
+
 
 
     document.getElementById('menu-toggle').addEventListener('mouseenter', function () {
       document.body.classList.toggle('menu-open');
     });
-  
+
     document.getElementById('sidebar').addEventListener('mouseleave', function () {
       document.body.classList.toggle('menu-open');
     }); 
   </script>
   <script>
 
-const toggleButton = document.getElementById('toggle-cart');
-  const cartContainer = document.querySelector('.cart-container');
+    const toggleButton = document.getElementById('toggle-cart');
+    const cartContainer = document.querySelector('.cart-container');
 
-  toggleButton.addEventListener('click', () => {
-    cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
-  });
+    toggleButton.addEventListener('click', () => {
+      cartContainer.classList.toggle('active'); // Alterna a classe que exibe/oculta o carrinho
+    });
 
 
     const databaseURL = "https://sterileasy-ca5ed-default-rtdb.firebaseio.com/materiais.json";
@@ -506,7 +558,6 @@ const toggleButton = document.getElementById('toggle-cart');
       document.getElementById('loading-overlay').style.display = 'none';
     }
 
-
     // Função para exibir o nome do cliente ou botão de login
     function exibirUsuario() {
       const cliente = JSON.parse(localStorage.getItem('cliente'));
@@ -519,7 +570,7 @@ const toggleButton = document.getElementById('toggle-cart');
           <button class=" btn-danger" onclick="Logout()">Sair</button>
         </div>`;
       } else {
-        userInfoDiv.innerHTML = `<button class="background-color: #007bff !important;  " onclick="window.location.href='registration.html'">Logar</button>`;
+        userInfoDiv.innerHTML = `<button class="background-color: #6CB737 !important;  " onclick="window.location.href='registration.html'">Logar</button>`;
       }
     }
 
@@ -529,25 +580,26 @@ const toggleButton = document.getElementById('toggle-cart');
     }
 
     async function listarMateriais() {
-  const response = await fetch(databaseURL);
-  const data = await response.json();
+      const response = await fetch(databaseURL);
+      const data = await response.json();
 
-  const materiaisLista = document.getElementById('material-list');
-  materiaisLista.innerHTML = '';
+      const materiaisLista = document.getElementById('material-list');
+      materiaisLista.innerHTML = '';
 
-  if (data) {
-  Object.keys(data).forEach((id) => {
-    const material = data[id];
+      if (data) {
+        Object.keys(data).forEach((id) => {
+          const material = data[id];
 
-    const li = document.createElement('li');
-    li.classList.add('card');
-    li.innerHTML = `
-      <div class="card-container">
+          const li = document.createElement('li');
+          li.classList.add('card');
+          li.innerHTML = `
+      <div class="card-material" style="display: flex; align-items: center; justify-content: center;">
         <div class="card-image">
           <img src="assets/dentista.png" alt="${material.nome}" id="myImage">
         </div>
         <div class="card-details">
           <h3>${material.nome}</h3>
+          <h5>${material.descricao || ''}</h5>
           <p class="price">R$ ${material.valor}</p>
           <div class="quantity-control">
             <p>Quantidade:</p>
@@ -561,14 +613,14 @@ const toggleButton = document.getElementById('toggle-cart');
         </div>
       </div>
     `;
-    materiaisLista.appendChild(li);
-  });
-}
+          materiaisLista.appendChild(li);
+        });
+      }
 
-  esconderLoading();
+      esconderLoading();
 
-  
-}
+
+    }
 
     function incrementarQuantidade(id) {
       const input = document.getElementById(`quantidade-${id}`);
@@ -596,7 +648,7 @@ const toggleButton = document.getElementById('toggle-cart');
     function adicionarAoCarrinho(id, materialString) {
       const material = JSON.parse(decodeURIComponent(materialString));
       const quantidade = parseInt(document.getElementById(`quantidade-${id}`).value);
-      
+
       let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
       const itemExistente = carrinho.find((item) => item.id === id);
 
@@ -624,7 +676,7 @@ const toggleButton = document.getElementById('toggle-cart');
       if (carrinho.length > 0) {
         carrinho.forEach((item) => {
           const li = document.createElement('li');
-          
+
           li.innerHTML = `
             
               <span style="display: flex; align-items: center;justify-content: space-between;">${item.nome} (x${item.quantidade})</span>
@@ -691,8 +743,7 @@ const toggleButton = document.getElementById('toggle-cart');
       localStorage.removeItem('carrinho');
       listarCarrinho();
     }
-    
-    
+
     mostrarLoading()
     exibirUsuario();
     listarMateriais();
@@ -700,4 +751,5 @@ const toggleButton = document.getElementById('toggle-cart');
   </script>
 
 </body>
+
 </html>

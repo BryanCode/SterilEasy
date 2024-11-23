@@ -22,7 +22,7 @@
     }
     .spinner {
       border: 5px solid #f3f3f3;
-      border-top: 5px solid #007bff;
+      border-top: 5px solid #6DB734;
       border-radius: 50%;
       width: 50px;
       height: 50px;
@@ -34,10 +34,10 @@
     }
     body {
       font-family: 'Georama', Arial, sans-serif;
-  
+      padding-top: 1em;
       max-width: 600px;
       margin: auto;
-      background-color: #f0f2f5;
+      background-color: #052637;
       color: #333;
     }
     h2 {
@@ -46,20 +46,35 @@
     }
     h1 {
       text-align: center;
-      color: #404B50;
+      color: #ddd;
       font-size: 2rem;
       margin-bottom: 20px;
     }
-    .logo {
+    @media screen and (max-width: 600px) {
+      .logo {
       display: flex;
       justify-content: center;
-      
+      width: 100vw;
+      margin-bottom: 1em;
     }
     .logo h1 {
       margin-top: 0;
     }
     .logo img {
-      width: 150px;
+      width: 100%;
+      height: auto;
+    }
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1em;
+    }
+    .logo h1 {
+      margin-top: 0;
+    }
+    .logo img {
+      width: 80%;
       height: auto;
     }
     .cliente-form {
@@ -80,13 +95,13 @@
     }
     .cliente-form input:focus {
       outline: none;
-      border-color: #007bff;
+      border-color: #6DB734;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
     .cliente-form button {
       width: 100%;
       padding: 12px;
-      background-color: #007bff;
+      background-color: #6DB734;
       border: none;
       color: white;
       font-size: 1.1rem;
@@ -161,7 +176,7 @@
       position: fixed;
       top: 15px;
       left: 15px;
-      color: #404B50;
+      color: #ddd;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -210,9 +225,8 @@
   </div>
 
      <!-- Logotipo -->
-     <div class="logo" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-      <img src="assets/Designer__1_-removebg-preview.png" alt="Logotipo da Empresa">
-      <h1>SterilEasy</h1>
+    <div class="logo" style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <img src="assets/Captura_de_tela_2024-11-23_082850-ai-brush-removebg-ziueb6lb.png" alt="Logotipo">
     </div>
 
   <div class="cliente-form">

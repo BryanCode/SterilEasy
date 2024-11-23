@@ -13,13 +13,14 @@
       padding: 20px;
       max-width: 1200px;
       margin: auto;
-      background-color: #404B50;
+      background-color: #052637;
     }
     h1 {
       margin-top: 50px;
       text-align: center;
-      color: #007bff;
+      color: #6CB737;
     }
+
     .material-form, .material-list {
       background-color: white;
       padding: 20px;
@@ -40,7 +41,7 @@
       border-radius: 5px;
     }
     .material-form button {
-      background-color: #007bff;
+      background-color: #6CB737;
       color: white;
       cursor: pointer;
       font-size: 1rem;
@@ -79,7 +80,7 @@
       background-color: #e44b4b;
     }
     nav {
-      background-color: #007bff;
+      background-color: #6CB737;
       padding: 10px;
       color: white;
       display: flex;
@@ -104,7 +105,7 @@
     .btn-add {
       width: 100%;
       font-size: 18px;
-      background-color: #007bff;
+      background-color: #6CB737;
       border: none;
       color: white;
       padding: 5px 10px;
@@ -144,7 +145,7 @@
     .modal-content button {
       margin-top: 10px;
       padding: 10px;
-      background-color: #007bff;
+      background-color: #6CB737;
       color: white;
       border: none;
       cursor: pointer;
@@ -247,7 +248,7 @@
   }
   .spinner {
     border: 5px solid #f3f3f3; /* Cor de fundo do spinner */
-    border-top: 5px solid #007bff; /* Cor principal */
+    border-top: 5px solid #6CB737; /* Cor principal */
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -292,7 +293,7 @@
     .modal-content button {
       margin-top: 10px;
       padding: 10px;
-      background-color: #007bff;
+      background-color: #6CB737;
       color: white;
       border: none;
       cursor: pointer;
@@ -343,6 +344,7 @@
       <div class="modal-content">
         <h2>Adicionar Material</h2>
         <input type="text" id="nome" placeholder="Nome do Material" required>
+        <input type="text" id="descricao" placeholder="Descrição do Material">
         <input type="number" id="valor" placeholder="Valor do Material" required>
         <button onclick="adicionarMaterial()">Adicionar</button>
         <button class="modal-close" onclick="fecharModalAdicionar()">Cancelar</button>
@@ -355,6 +357,7 @@
     <div class="modal-content">
       <h2>Editar Material</h2>
       <input type="text" id="editar-nome" placeholder="Nome do Material">
+      <input type="text" id="editar-descricao" placeholder="Descrição do Material">
       <input type="number" id="editar-valor" placeholder="Valor do Material">
       <button onclick="salvarEdicao()">Salvar</button>
       <button class="modal-close" onclick="fecharModal()">Cancelar</button>
@@ -400,11 +403,12 @@
     async function adicionarMaterial() {
       const nome = document.getElementById('nome').value;
       const valor = document.getElementById('valor').value;
+      const descricao = document.getElementById('descricao').value;
       if (nome && valor) {
         await fetch(databaseURL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nome, valor })
+          body: JSON.stringify({ nome, valor, descricao})
         });
         fecharModalAdicionar();
         location.reload();
@@ -439,8 +443,9 @@
           const li = document.createElement('li');
           li.innerHTML = `
             <div style="display: flex; align-items: center;">
-              <img src="assets/dentista.png" alt="${material.nome}">
-              <span style="font-size: 16px;">${material.nome} <br><strong>R$ ${material.valor}</strong></span>
+              <img src="assets/dentista.png" alt="${material.nome}"> <br>
+              <span style="font-size: 14px;">${material.nome} <br>
+                <strong>R$ ${material.valor}</strong></span>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
               <button style="background-color: green !important;" onclick="abrirModal('${id}', '${encodeURIComponent(JSON.stringify(material))}')">Editar</button>
@@ -461,6 +466,7 @@
       const material = JSON.parse(decodeURIComponent(materialString));
       
       document.getElementById('editar-nome').value = material.nome;
+      document.getElementById('editar-descricao').value = material.descricao;
       document.getElementById('editar-valor').value = material.valor;
       document.getElementById('modal-editar').style.display = 'flex';
     }
@@ -475,10 +481,11 @@
     async function salvarEdicao() {
       const nome = document.getElementById('editar-nome').value;
       const valor = document.getElementById('editar-valor').value;
+      const descricao = document.getElementById('editar-descricao').value;
 
       if (nome && valor && idMaterialEdicao) {
         const url = `https://sterileasy-ca5ed-default-rtdb.firebaseio.com/materiais/${idMaterialEdicao}.json`;
-        const materialAtualizado = { nome, valor };
+        const materialAtualizado = { nome, valor, descricao };
 
         await fetch(url, {
           method: "PUT",
